@@ -53,6 +53,59 @@ public class Torneo {
         return jugador;
     }
 
+    public void escogerMetodoOrdenamiento(){
+           int tipoMetodo = 1+metodoAleatorio.nextInt(2);
+            
+           if(tipoMetodo==1){
+                 contJugadores.bubbleSort(jugadores);   
+                 //imprimirJugadores();
+           }
+            
+           else{//aquí va el de selección
+                contJugadores.selectionSort(jugadores);
+                //imprimirJugadores();
+            }
+    }
+    
+    public void buscarJugadorPorNombre(){
+        String nombreJugador="";
+        while(nombreJugador.compareTo("ninguno")!=0){
+            System.out.println("\n\t--Ingrese el nombre del jugador a buscar--");
+            System.out.println("[Ingrese -> ninguno <- si ya no desea seguir ingresando]");        
+            System.out.print("->");        
+            nombreJugador= scanner.nextLine();
+            if(nombreJugador.compareTo("ninguno")!=0){
+                    System.out.println("\n1. Busqueda secuencial \n2. Búsqueda binaria");
+                    System.out.println("Ingrese el tipo de búsqueda a emplear");
+                    System.out.print("->");
+                    int tipoBusqueda= Integer.parseInt(scanner.nextLine());
+                    try{
+                          switch(tipoBusqueda){
+                                   case 1:             
+                                            Jugador jugadorHallado = contJugadores.buscarBinariamenteJugadorPorNombre(jugadores, nombreJugador);
+                                            System.out.println("\n\n<<Jugador hallado>>\n" );
+                                            jugadorHallado.printMe();
+                                   break;
+            
+                                   case 2:
+                                            Jugador jugadorEncontrado = contJugadores.buscarSecuencialmentePorNombre(jugadores, nombreJugador);
+                                            System.out.println("<<Jugador hallado>>\n" );
+                                            jugadorEncontrado.printMe();
+                                    break;            
+                                    default:
+                                            System.out.println("NO ingresaste ningun numero mostrado en el menú");                                            
+                          }//fin del switch
+                    }     
+                    catch(Exception excepcion){//yo recordaba que aquí se podían personalizar los msjes...pero creo que lo hizo para saber de que excepcion se hablaba
+                           System.out.println("--Ninguno");
+                           System.out.printf("--Razón -> %s\n", excepcion.getMessage()); 
+                    }
+            }
+            
+        }//fin del while        
+        
+    }
+
     private void buscarJugador() {
         System.out.println("Ingrese el punteo del Jugador: ");
         int punteo = Integer.parseInt(scanner.nextLine());
