@@ -1,5 +1,6 @@
 package torneotennis.manejador;
 
+import java.text.Collator;
 import torneotennis.entidades.Jugador;
 
 /**
@@ -122,5 +123,61 @@ public class controlJugadores {
         }
         return jugadores;
     }
+    
+    
+    /**
+     * Se verifica que nombre va antes por orden alfabetico
+     *
+     * @param nombreJugador1
+     * @param nombreJugador2
+     */
+    private boolean esMenorQue(String nombreJugador1,String nombreJugador2){
+        Collator comparador = Collator.getInstance();
+        comparador.setStrength(Collator.PRIMARY);
+        int valorComparacion = comparador.compare(nombreJugador1.toUpperCase(), nombreJugador2.toUpperCase());
+        if(valorComparacion == -1){
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * Se ordena un arreglo por orden alfabetico
+     * siguiendo la logica del metodo Burbuja
+     *
+     * @param jugadores
+     */
+    public void ordenamientoPorBurbuja(Jugador[] jugadores){
+        int largoArreglo = jugadores.length;
+        for (int i = 0; i < largoArreglo; i++) {
+            for (int j = (largoArreglo-1); j > i; j--) {                
+                if (esMenorQue(jugadores[j].getNombre(), jugadores[j-1].getNombre())) {
+                    Jugador jugadorTemporal = jugadores[j];
+                    jugadores[j] = jugadores[j-1];
+                    jugadores[j-1] = jugadorTemporal;
+                }
+            }
+        }        
+    }
+    
+    /**
+     * Se ordena un arreglo por orden alfabetico
+     * siguiendo la logica del ordenamiento por seleccion
+     *
+     * @param jugadores
+     */
+    public void ordenamientoPorSeleccion(Jugador[] jugadores){
+        int largoArreglo = jugadores.length;
+        for (int i = 0; i < largoArreglo; i++) {
+            int valorMinimo = i;
+            for (int j = valorMinimo+1; j < largoArreglo; j++) {             
+                if (esMenorQue(jugadores[j].getNombre(), jugadores[valorMinimo].getNombre())) {
+                    valorMinimo = j;
+                }
+            }
+            Jugador jugadorTemporal = jugadores[i];
+            jugadores[i] = jugadores[valorMinimo];
+            jugadores[valorMinimo] = jugadorTemporal;
+        }
+    }
 }

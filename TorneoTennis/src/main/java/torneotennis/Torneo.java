@@ -26,10 +26,33 @@ public class Torneo {
         jugadores = getJugadores();
         jugadoresDisponibles = jugadores;
         imprimirJugadores();
-        buscarJugador();
-
+        tiposDeOrdenamiento();        
+        imprimirJugadores();
+        buscarJugador();        
     }
 
+    public void tiposDeOrdenamiento(){
+        System.out.println("Ordenamiento de Jugadores");;
+        System.out.println("");
+        System.out.println("Escribe el numero del tipo de ordenamiento que deseas usar");
+        System.out.println("1. Ordenamiento BubbleSort");
+        System.out.println("2. Ordenamietno Por seleccion");
+        int opcion = 0;
+        while(opcion == 0){
+            try{
+                opcion = Integer.parseInt(scanner.nextLine());
+                if(opcion == 1){
+                    contJugadores.ordenamientoPorBurbuja(this.jugadores);
+                }else if(opcion == 2){
+                    contJugadores.ordenamientoPorSeleccion(this.jugadores);
+                }
+            }catch(NumberFormatException e){
+                System.out.println("Debe ingresar un numero de opcion");
+                opcion = 0;
+            }
+        }                
+    }
+    
     private void imprimirJugadores() {
         for (Jugador jugador : jugadores) {
             jugador.printMe();
@@ -41,13 +64,17 @@ public class Torneo {
         int tamaño = Integer.parseInt(scanner.nextLine());
         Jugador[] jugador = new Jugador[tamaño];
 
-        for (int i = 0; i < jugador.length; i++) {
-            System.out.println("Ingrese el Nombre:");
-            String nombre = scanner.nextLine();
-            System.out.println("Ingrese Punteo: ");
-            int edad = Integer.parseInt(scanner.nextLine());
-
-            jugador[i] = new Jugador(nombre, 0, edad);
+        for (int i = 0; i < jugador.length; i++) {            
+            try{
+                System.out.println("Ingrese el Nombre:");
+                String nombre = scanner.nextLine();
+                System.out.println("Ingrese Punteo: ");
+                int edad = Integer.parseInt(scanner.nextLine());
+                jugador[i] = new Jugador(nombre, 0, edad);
+            }catch(NumberFormatException e){
+                System.out.println("Ingrese un numero en el Punteo");
+                i--;
+            }            
         }
 
         return jugador;
