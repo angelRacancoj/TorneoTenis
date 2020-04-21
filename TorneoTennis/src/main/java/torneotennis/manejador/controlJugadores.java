@@ -1,5 +1,6 @@
 package torneotennis.manejador;
 
+import java.text.Collator;
 import torneotennis.entidades.Jugador;
 
 /**
@@ -50,6 +51,7 @@ public class controlJugadores {
         }
         return null;
     }
+    
 
     /**
      * Se busca al jugador en base a su punteo (como valor principal),
@@ -81,7 +83,7 @@ public class controlJugadores {
         } while (pInicio != pFinal || pInicio > pFinal);
         throw new Exception("No se ha encontrado al jugador");
     }
-
+    
     /**
      * Se devuelte una arreglo con el tamaño redimensionado
      *
@@ -92,7 +94,6 @@ public class controlJugadores {
     public Jugador[] eliminarJugador(Jugador[] jugadores, String nombre) {
 
         int tamañoActual = 0;
-
         //Este metodo se encarga de eliminar al jugador
         for (int i = 0; i < jugadores.length; i++) {
             if (jugadores[i].getNombre().equalsIgnoreCase(nombre)) {
@@ -121,6 +122,85 @@ public class controlJugadores {
             }
         }
         return jugadores;
+    }
+    //Buscar El nombre ingresado con la busqueda Binaria
+    public Jugador busquedaBinariaNombre(Jugador[] jugadores, String nombre, int numOrdenamiento){
+        boolean verificarNumOrdenamiento = true;
+        if (numOrdenamiento == 1) {
+            ordenarBubble(jugadores);            
+        }else if (numOrdenamiento == 2) {
+            ordenarSeleccion(jugadores);
+        }else{
+            System.out.println("El numero de ordenamiento no es valido, no se realizara la busqueda");
+            verificarNumOrdenamiento = false;
+            return null;
+        } 
+        ImprimirJugadores(jugadores);
+        if (verificarNumOrdenamiento) {
+            int posI = 0;
+            int posF = jugadores.length-1;
+            while(posI <= posF){
+                int centro = (int) (posI+posF)/2;
+                if (jugadores[centro].getNombre().equalsIgnoreCase(nombre)) {
+                    System.out.println("Se encontro la informacion del jugador");
+                    return jugadores[centro];
+                }else if (comparacion(jugadores[centro].getNombre(),nombre)) {
+                    posI = centro+1;
+                } else{
+                    posF = centro-1;
+                }
+            }
+        }
+        System.out.println("No se encontro al jugador");
+        return null;
+    }
+    //Se compara cual es el nombre mayor y menor para los ordenamientos
+    private boolean comparacion(String j1,String j2){
+        Collator comparar = Collator.getInstance();
+        comparar.setStrength(Collator.PRIMARY);
+        int evaluar = comparar.compare(j1.toUpperCase(), j2.toUpperCase());
+        if (evaluar == -1) {
+            return true;
+        }
+        return false;
+    }
+    //Ordenamiento por el metodo burbuja
+    private void ordenarBubble(Jugador[] jugadores){
+        System.out.println("Ordenamento bubble sort");
+        int largo = jugadores.length;
+        boolean moverPosicion = true;
+        while (moverPosicion == true){
+            moverPosicion = false;
+            for (int i = 1; i < largo; i++) {
+                if (comparacion(jugadores[i].getNombre(),jugadores[i-1].getNombre())) {
+                    Jugador aux = jugadores[i];
+                    jugadores[i] = jugadores[i-1];
+                    jugadores[i-1]=aux;
+                    moverPosicion = true;
+                }
+            }
+        }
+    }
+    //ordenamiento por el metodo por seleccion
+    private void ordenarSeleccion(Jugador[] jugadores){
+        System.out.println("Ordenamiento por seleccion");
+        int largo = jugadores.length;
+        for (int i = 0; i < largo-1; i++) {
+            int min = i;
+            for (int j = i+1; j < largo; j++) {
+                if (comparacion(jugadores[j].getNombre(),jugadores[min].getNombre())) {
+                    min = j;
+                }
+            }
+            Jugador aux = jugadores[i];
+            jugadores[i] = jugadores[min];
+            jugadores[min] = aux;
+        }
+    }
+    private void ImprimirJugadores(Jugador[] jugadores){
+        for (Jugador jugador : jugadores) {
+            jugador.printMe();
+        }
     }
 
 }
