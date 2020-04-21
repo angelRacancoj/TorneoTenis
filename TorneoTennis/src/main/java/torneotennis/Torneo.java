@@ -26,8 +26,9 @@ public class Torneo {
         jugadores = getJugadores();
         jugadoresDisponibles = jugadores;
         imprimirJugadores();
-        buscarJugador();
-
+        //buscarJugador();
+        buscarJugadorNombre();
+        
     }
 
     private void imprimirJugadores() {
@@ -68,5 +69,32 @@ public class Torneo {
         }
 
     }
+    private void buscarJugadorNombre(){
+        boolean variasBusquedas = true;
+        while(variasBusquedas){
+            System.out.println("Ingrese el nombre del jugador a buscar");
+            String nombre = scanner.nextLine();
+            System.out.println("Ingrese el numero de metodo de ordenamiento de los nombres");
+            System.out.println("1. Ordenamiento Bubble sort \n2. Ordenamiento por Seleccion");
+            int numOrdenamiento = Integer.parseInt(scanner.nextLine());
+            Jugador jugadorEncontrado = contJugadores.busquedaBinariaNombre(jugadores,nombre,numOrdenamiento);    
+            if (jugadorEncontrado != null) {
+                jugadorEncontrado.printMe();
+            }
+            while(true){
+                System.out.println("¿Desea realizar otra busqueda? : s/n");
+                String volverBuscar = scanner.nextLine();
+                if (volverBuscar.equalsIgnoreCase("s")) {
+                    break;                    
+                } else if (volverBuscar.equalsIgnoreCase("n")) {
+                    variasBusquedas = false;
+                    break;                    
+                } else
+                 System.out.println("No se reconocio su respuesta, vuleva a intentarlo");
+            }
+            
+        }
+        
+    }   
 
 }
