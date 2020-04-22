@@ -60,6 +60,59 @@ public class controlJugadores {
      * @return
      * @throws java.lang.Exception
      */
+    //Se agrega el Ordenamiento BubbleSort en base al nombre del jugador
+    public Jugador [] OrdenamientoBubbleSort(Jugador[] jugadores){
+        Jugador cambioJugador;
+        
+        for (int i = 0; i < jugadores.length-1; i++) {
+            for (int j = 0; j < jugadores.length-1; j++) {
+                if(jugadores[j].getNombre().compareToIgnoreCase(jugadores[j+1].getNombre()) > 0){ 
+                    cambioJugador = jugadores[j]; 
+                    jugadores[j] = jugadores[j+1]; 
+                    jugadores[j+1] = cambioJugador; 
+                }
+            }
+        }
+        return jugadores;
+    }
+    //Se agrega el ordenamiento por seleccion en base al nombre del jugador
+    public Jugador[] ordenamientoPorSeleccion(Jugador[] jugadores){
+        Jugador cambioJugador;
+        for (int i = 0; i < jugadores.length-1; i++) {
+            int minimo = i;
+            for (int j = minimo+1; j < jugadores.length; j++) {
+                if(jugadores[j].getNombre().compareToIgnoreCase(jugadores[minimo].getNombre()) < 0){
+                    minimo = j;
+                }
+            }
+            
+            cambioJugador = jugadores[i];
+            jugadores[i] = jugadores[minimo];
+            jugadores[minimo] = cambioJugador;
+        }
+        
+        
+        return jugadores;
+        
+    }
+    
+    //Se agrega buqueda binaria segun el nombre del jugador
+    public Jugador buscarNombreJugadorBinario(Jugador[] jugadores, String nombreJugador)throws Exception{
+        int pInicio = 0;
+        int pFinal = jugadores.length - 1;
+        while(pInicio <= pFinal){
+            int centro = (pInicio + pFinal) / 2;
+            if(jugadores[centro].getNombre().compareToIgnoreCase(nombreJugador) == 0){
+                return jugadores[centro];
+            }else if(jugadores[centro].getNombre().compareToIgnoreCase(nombreJugador) > 0){
+                pFinal = centro-1;
+            }else if(jugadores[centro].getNombre().compareToIgnoreCase(nombreJugador) < 0){
+                pInicio = centro+1;
+            }
+        }
+        throw  new Exception("No se ha encontrado al jugador");
+    }
+    
     public Jugador buscarJugadorBinario(Jugador[] jugadores, int punteo) throws Exception {
         //Lo utilizamos para mostrar los ciclos realizados
         int ciclos = 0;
