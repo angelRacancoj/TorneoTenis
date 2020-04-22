@@ -122,5 +122,27 @@ public class controlJugadores {
         }
         return jugadores;
     }
+    
+    public Jugador buscarJugadorNombre (Jugador[] jugadores, String nombre) throws Exception {
+        //Lo utilizamos para mostrar los ciclos realizados
+        int ciclos = 0;
+
+        int pInicio = 0;
+        int pFinal = jugadores.length;
+
+        do {
+            ciclos++;
+            int centro = (int) (pInicio + pFinal) / 2;
+            if ((jugadores[centro].getNombre().compareToIgnoreCase(nombre)) == 0) {
+                System.out.println("Ciclos busqueda secuencial: " + ciclos);
+                return jugadores[centro];
+            } else if ((jugadores[centro].getNombre().compareToIgnoreCase(nombre)) > 0) {
+                pFinal = centro - 1;
+            } else if ((jugadores[centro].getNombre().compareToIgnoreCase(nombre)) < 0) {
+                pInicio = centro + 1;
+            }
+        } while (pInicio != pFinal || pInicio > pFinal);
+        throw new Exception("No se ha encontrado al jugador");
+    }
 
 }
