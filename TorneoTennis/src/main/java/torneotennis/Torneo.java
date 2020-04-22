@@ -26,7 +26,7 @@ public class Torneo {
         jugadores = getJugadores();
         jugadoresDisponibles = jugadores;
         imprimirJugadores();
-        buscarJugador();
+        realizarBusqueda();
 
     }
 
@@ -44,6 +44,8 @@ public class Torneo {
         for (int i = 0; i < jugador.length; i++) {
             System.out.println("Ingrese el Nombre:");
             String nombre = scanner.nextLine();
+            nombre = nombre.toLowerCase();
+            nombre = Character.toUpperCase(nombre.charAt(0)) + nombre.substring(1, nombre.length());
             System.out.println("Ingrese Punteo: ");
             int edad = Integer.parseInt(scanner.nextLine());
 
@@ -53,10 +55,11 @@ public class Torneo {
         return jugador;
     }
 
-    private void buscarJugador() {
+    private void buscarJugadorPunteo() {
+        contJugadores.ordenarPunteoBurbuja(jugadores);
         System.out.println("Ingrese el punteo del Jugador: ");
-        int punteo = Integer.parseInt(scanner.nextLine());
         try {
+            int punteo = Integer.parseInt(scanner.nextLine());
             System.out.println("Secuencial: ");
             Jugador resultadoSecuencial = contJugadores.buscarJugador(jugadores, punteo);
             resultadoSecuencial.printMe();
@@ -66,6 +69,51 @@ public class Torneo {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    private void buscarJugadorNombre() {
+        System.out.println("Ingrese el nombre del jugador:");
+        String nombre = scanner.nextLine();
+        contJugadores.ordenarNombresSeleccion(jugadores);
+        Jugador jugador = contJugadores.busquedaBinariaNombre(jugadores, nombre);
+        if (jugador != null) {
+            System.out.println("==================================");
+            jugador.printMe();
+            System.out.println("==================================\n");
+        } else {
+            System.out.println("**El jugador no existe**");
+        }
+    }
+
+    public void realizarBusqueda() {
+        int opcion = 0;
+        do {
+            System.out.println("¿De qué forma quiere buscar al jugador?");
+            System.out.println(" 1. Por Punteo");
+            System.out.println(" 2. Por Nombre");
+            System.out.println(" 3. Dejar de buscar");
+            System.out.println("Ingrese el número de su opción:");
+            try{
+                opcion = Integer.parseInt(scanner.nextLine());
+            }catch(Exception e){
+                opcion = 0;
+            }
+            
+            switch (opcion) {
+                case 1:
+                    buscarJugadorPunteo();
+                    break;
+                case 2:
+                    buscarJugadorNombre();
+                    break;
+                case 3:
+                    opcion = -1;
+                    break;
+                default:
+                    System.out.println("Opción Inválida");
+                    break;
+            }
+        } while (opcion != -1);
 
     }
 
