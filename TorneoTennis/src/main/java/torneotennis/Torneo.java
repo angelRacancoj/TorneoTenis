@@ -27,6 +27,7 @@ public class Torneo {
         jugadoresDisponibles = jugadores;
         imprimirJugadores();
         buscarJugador();
+        buscarJugadorPorNombre(); //se agrega el metodo a agregarDatos para poder ser ejecutado en el main
 
     }
 
@@ -67,6 +68,45 @@ public class Torneo {
             System.out.println("Error: " + e.getMessage());
         }
 
+    }
+    
+    //Se agrega y crea el metodo buscarJugadorPorNombre para determinar que metodo de ordenacion queremos utilizar
+    private void buscarJugadorPorNombre(){
+        boolean salir = false;
+        do{
+        System.out.println("Ingrese el nombre del Jugador: ");
+        String nombreJugador = scanner.nextLine();
+        try{
+            System.out.println("\nQue quieres hacer: ");
+            System.out.println("1. Busqueda Binaria por Ordenamiento BubbleSort \n2. Busqueda Binaria por Ordenamiento por Seleccion \n3. Salir del buscador");
+            System.out.println("\nIngresa el numero de la opcion que seleccionaste: ");
+            int opcion = Integer.parseInt(scanner.nextLine());
+            
+            switch(opcion){
+                case 1:
+                    System.out.println("\nBubbleSort: ");
+                    //contJugadores.OrdenamientoBubbleSort(jugadores);
+                    Jugador resultadoBubbleSort = contJugadores.buscarNombreJugadorBinario(contJugadores.OrdenamientoBubbleSort(jugadores), nombreJugador);
+                    resultadoBubbleSort.printMe();
+                    break;
+                    
+                case 2:
+                    System.out.println("\nOrdenamiento por Seleccion: ");
+                    //contJugadores.ordenamientoPorSeleccion(jugadores);
+                    Jugador resultadoSeleccion = contJugadores.buscarNombreJugadorBinario(contJugadores.ordenamientoPorSeleccion(jugadores), nombreJugador);
+                    resultadoSeleccion.printMe();
+                    break;
+                case 3:
+                    salir = true;
+                    break;
+                default:
+                    System.out.println(">>>>Ingresaste un numero no valido<<<<");
+                    break;
+            }
+        }catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+    }while(!salir);
     }
 
 }
